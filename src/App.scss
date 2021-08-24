@@ -1,0 +1,19 @@
+.App {
+  height: 100vh;
+  width: 100%;
+  background: #82589f;
+  display: grid;
+  grid-template-rows: 64px 1fr;
+}
+
+.App__header {
+  font-size: 24px;
+  color: white;
+  background: #723a99;
+  display: grid;
+  place-items: center;
+}
+
+.App__main {
+  padding: 16px;
+}

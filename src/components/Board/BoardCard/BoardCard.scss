@@ -1,0 +1,31 @@
+.BoardCard {
+  user-select: none;
+  position: relative;
+  padding: 8px;
+  background: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 0 #b7beb5cc;
+  cursor: pointer;
+
+  &:hover {
+    background: #f7faf6;
+    .BoardCard__btn {
+      visibility: visible;
+    }
+  }
+}
+
+.BoardCard__btn {
+  background: rgba(#f7faf6, 0.6);
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  visibility: hidden;
+
+  &:hover {
+    background: #edf5ed;
+  }
+}
