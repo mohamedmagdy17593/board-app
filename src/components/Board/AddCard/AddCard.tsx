@@ -12,10 +12,12 @@ interface AddCardProps {
 
 function AddCard({ close, onAdd }: AddCardProps) {
   let addCardRef = useRef<HTMLDivElement>(null);
+  let actionsRef = useRef<HTMLDivElement>(null);
   let textAreaRef = useRef<HTMLTextAreaElement>(null);
   let [text, setText] = useState('');
 
   useEffect(() => {
+    textAreaRef.current?.scrollIntoView();
     textAreaRef.current?.focus();
   }, []);
 
@@ -54,7 +56,7 @@ function AddCard({ close, onAdd }: AddCardProps) {
             }
           }}
         ></textarea>
-        <div className="AddCard__actions__wrappers">
+        <div ref={actionsRef} className="AddCard__actions">
           <button className="btn btn--success" type="submit">
             <SaveIcon className="btn__icon" />
             Save
