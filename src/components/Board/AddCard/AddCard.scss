@@ -5,3 +5,9 @@
   width: 100%;
   margin-bottom: 8px;
 }
+
+.AddCard__actions__wrappers {
+  > * + * {
+    margin-left: 8px;
+  }
+}
