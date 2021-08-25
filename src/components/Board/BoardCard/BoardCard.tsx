@@ -3,7 +3,6 @@ import './BoardCard.scss';
 import { PencilAltIcon } from '@heroicons/react/solid';
 import { editItem, Item } from '../../../features/board/board';
 import { useRef, useState } from 'react';
-import clsx from 'clsx';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../../app/hooks';
 
@@ -15,8 +14,17 @@ function BoardCard({ item }: BoardCardProps) {
   let [isEdit, setIsEdit] = useState(false);
   let dispatch = useAppDispatch();
 
+  function handleClickOnCard() {
+    alert('show modal');
+  }
+
   return (
-    <div className="BoardCard">
+    <div
+      className="BoardCard"
+      role="button"
+      tabIndex={1}
+      onClick={isEdit ? undefined : handleClickOnCard}
+    >
       {isEdit ? (
         <BoardCardContentEditableDiv
           text={item.text}
@@ -40,7 +48,10 @@ function BoardCard({ item }: BoardCardProps) {
       {!isEdit && (
         <button
           className="btn btn--icon BoardCard__btn"
-          onClick={() => setIsEdit(true)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsEdit(true);
+          }}
         >
           <PencilAltIcon className="btn__icon" />
         </button>
@@ -82,7 +93,6 @@ function BoardCardContentEditableDiv({
       contentEditable
       suppressContentEditableWarning
       onBlur={(e) => {
-        handleEdit();
         close();
       }}
       onKeyPress={(e) => {}}
