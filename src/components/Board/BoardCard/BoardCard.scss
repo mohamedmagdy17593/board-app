@@ -18,6 +18,13 @@
   }
 }
 
+.BoardCard__text {
+  margin: -5px;
+  padding: 4px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
 .BoardCard__btn {
   background: rgba(#f7faf6, 0.6);
   position: absolute;

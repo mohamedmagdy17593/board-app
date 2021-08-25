@@ -1,19 +1,103 @@
 import './BoardCard.scss';
 
 import { PencilAltIcon } from '@heroicons/react/solid';
-import { Item } from '../../../features/board/board';
+import { editItem, Item } from '../../../features/board/board';
+import { useRef, useState } from 'react';
+import clsx from 'clsx';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../../app/hooks';
 
 interface BoardCardProps {
   item: Item;
 }
 
 function BoardCard({ item }: BoardCardProps) {
+  let [isEdit, setIsEdit] = useState(false);
+  let dispatch = useAppDispatch();
+
   return (
     <div className="BoardCard">
-      <span>{item.text}</span>
-      <button className="btn btn--icon BoardCard__btn">
-        <PencilAltIcon className="btn__icon" />
-      </button>
+      {isEdit ? (
+        <BoardCardContentEditableDiv
+          text={item.text}
+          close={() => setIsEdit(false)}
+          onEdit={(value) => {
+            if (value) {
+              dispatch(
+                editItem({
+                  id: item.id,
+                  text: value,
+                }),
+              );
+              setIsEdit(false);
+            }
+          }}
+        />
+      ) : (
+        <div className="BoardCard__text">{item.text}</div>
+      )}
+
+      {!isEdit && (
+        <button
+          className="btn btn--icon BoardCard__btn"
+          onClick={() => setIsEdit(true)}
+        >
+          <PencilAltIcon className="btn__icon" />
+        </button>
+      )}
+    </div>
+  );
+}
+
+interface BoardCardContentEditableDivProps {
+  text: string;
+  close: () => void;
+  onEdit: (value: string) => void;
+}
+
+function BoardCardContentEditableDiv({
+  text,
+  close,
+  onEdit,
+}: BoardCardContentEditableDivProps) {
+  let contentEditableRef = useRef<HTMLDivElement>(null);
+  let [value, setValue] = useState(text);
+
+  useEffect(() => {
+    contentEditableRef.current?.focus();
+    document.execCommand('selectAll', false);
+  }, []);
+
+  function handleEdit() {
+    let textValue = value?.trim();
+    if (textValue) {
+      onEdit(textValue);
+    }
+  }
+
+  return (
+    <div
+      ref={contentEditableRef}
+      className="BoardCard__text"
+      contentEditable
+      suppressContentEditableWarning
+      onBlur={(e) => {
+        handleEdit();
+        close();
+      }}
+      onKeyPress={(e) => {}}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          handleEdit();
+        } else if (e.key === 'Escape') {
+          close();
+        }
+      }}
+      onInput={(e) => {
+        setValue(e.currentTarget.textContent ?? '');
+      }}
+    >
+      {text}
     </div>
   );
 }

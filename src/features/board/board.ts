@@ -72,10 +72,23 @@ export const boardSlice = createSlice({
         description: '',
       });
     },
+    editItem(
+      state,
+      action: PayloadAction<{
+        id: string;
+        text?: string;
+        description?: string;
+      }>,
+    ) {
+      let item = state.todos.find((item) => item.id === action.payload.id);
+      if (item) {
+        Object.assign(item, action.payload);
+      }
+    },
   },
 });
 
-export const { addItem } = boardSlice.actions;
+export const { addItem, editItem } = boardSlice.actions;
 
 export const selectTodos = (state: RootState) => state.board.todos;
 
