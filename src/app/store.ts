@@ -1,11 +1,15 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import boardReducer from '../features/board/boardSlice';
 
-export const store = configureStore({
-  reducer: {
-    board: boardReducer,
-  },
-});
+export function createAppStore() {
+  return configureStore({
+    reducer: {
+      board: boardReducer,
+    },
+  });
+}
+
+export const store = createAppStore();
 
 store.subscribe(() => {
   console.log('newState', JSON.stringify(store.getState()));

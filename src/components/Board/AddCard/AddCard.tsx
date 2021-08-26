@@ -61,7 +61,12 @@ function AddCard({ close, onAdd }: AddCardProps) {
             <SaveIcon className="btn__icon" />
             Save
           </button>
-          <button className="btn btn--icon" type="button" onClick={close}>
+          <button
+            aria-label="close"
+            className="btn btn--icon"
+            type="button"
+            onClick={close}
+          >
             <XIcon className="btn__icon" />
           </button>
         </div>

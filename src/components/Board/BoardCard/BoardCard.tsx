@@ -30,7 +30,7 @@ function BoardCard({ item, itemIndex, boardType }: BoardCardProps) {
   return (
     <>
       <Draggable draggableId={item.id} index={itemIndex}>
-        {(draggableProvided, draggableSnapshot) => (
+        {(draggableProvided) => (
           <div
             ref={draggableProvided.innerRef}
             {...draggableProvided.draggableProps}
@@ -66,6 +66,7 @@ function BoardCard({ item, itemIndex, boardType }: BoardCardProps) {
             {!isEdit && (
               <div className="BoardCard__wrapper">
                 <button
+                  aria-label="edit card"
                   className="btn btn--icon BoardCard__btn"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -75,6 +76,7 @@ function BoardCard({ item, itemIndex, boardType }: BoardCardProps) {
                   <PencilAltIcon className="btn__icon" />
                 </button>
                 <button
+                  aria-label="delete card"
                   className="btn btn--icon BoardCard__btn BoardCard__btn--danger"
                   onClick={(e) => {
                     e.stopPropagation();
