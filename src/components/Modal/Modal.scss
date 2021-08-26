@@ -1,0 +1,20 @@
+.Modal[data-reach-dialog-content] {
+  padding: 48px 24px 24px;
+  border-radius: 4px;
+  position: relative;
+}
+
+.Modal__close-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: white;
+  &:hover,
+  &:focus {
+    background: #edf5ed;
+  }
+}
+
+[data-reach-dialog-overlay] {
+  background: hsla(0, 0%, 0%, 0.43);
+}

@@ -1,0 +1,7 @@
+.ViewModalContent__footer {
+  display: flex;
+  justify-content: flex-end;
+  > * + * {
+    margin-left: 8px;
+  }
+}

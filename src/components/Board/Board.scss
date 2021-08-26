@@ -14,7 +14,7 @@
 }
 
 .Board__header {
-  padding: 12px 16px 0px;
+  padding: 12px 16px 8px;
   font-weight: 700;
 }
 
@@ -25,5 +25,5 @@
 }
 
 .Board__cards__wrapper {
-  padding: 8px 0;
+  min-height: 18px;
 }

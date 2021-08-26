@@ -11,7 +11,10 @@ body {
   padding: 0;
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
+  color: #2c3a47;
 }
+
+// Button
 
 .btn {
   user-select: none;
@@ -59,4 +62,30 @@ body {
   top: 2px;
   width: 16px;
   height: 16px;
+}
+
+// Form
+
+::placeholder {
+  color: #c0c9be;
+}
+
+.InputItem {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.InputItem__label {
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.InputItem__input {
+  padding: 8px;
+  color: #4d657a;
+  border: 1px solid #c0c9be;
+  border-radius: 4px;
+  width: 100%;
 }
