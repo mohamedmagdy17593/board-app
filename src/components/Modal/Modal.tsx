@@ -15,7 +15,12 @@ function Modal({ show, close, children }: React.PropsWithChildren<ModalProps>) {
   }
 
   return (
-    <Dialog className="Modal" isOpen onDismiss={() => close()}>
+    <Dialog
+      aria-label="view modal"
+      className="Modal"
+      isOpen
+      onDismiss={() => close()}
+    >
       {children}
       <button
         className="btn btn--icon Modal__close-button"

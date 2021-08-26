@@ -15,7 +15,22 @@ export interface BoardState {
   done: Item[];
 }
 
-const initialState: BoardState = {
+/**
+ * init state
+ */
+
+function getStoreState() {
+  try {
+    let oldStore = localStorage.getItem('__redux-management-board-store');
+    if (oldStore) {
+      return JSON.parse(oldStore);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+let initialState: BoardState = {
   todos: [
     {
       id: nanoid(),
@@ -26,6 +41,15 @@ const initialState: BoardState = {
   inProgress: [],
   done: [],
 };
+
+let oldStoreState = getStoreState();
+if (oldStoreState) {
+  // simple validating over local storage state
+  if (initialState.todos && initialState.done && initialState.inProgress) {
+    initialState = oldStoreState.board;
+    console.log('oldBoardState', initialState);
+  }
+}
 
 export const boardSlice = createSlice({
   name: 'board',
