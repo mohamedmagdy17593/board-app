@@ -1,5 +1,4 @@
 .BoardCard {
-  user-select: none;
   position: relative;
   padding: 8px;
   background: white;
@@ -8,13 +7,17 @@
   border-radius: 4px;
   margin-bottom: 8px;
   box-shadow: 0 1px 0 #b7beb5cc;
-  cursor: pointer;
+  cursor: pointer !important;
 
   &:hover {
     background: #f7faf6;
-    .BoardCard__btn {
+    .BoardCard__wrapper {
       visibility: visible;
     }
+  }
+
+  &:last-of-type {
+    margin-bottom: 0;
   }
 }
 
@@ -27,13 +30,26 @@
 
 .BoardCard__btn {
   background: rgba(#f7faf6, 0.6);
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  visibility: hidden;
   padding: 4px;
 
   &:hover {
     background: #edf5ed;
   }
+
+  &--danger {
+    color: #fc427b;
+    &:hover {
+      color: #e02960;
+    }
+  }
+}
+
+.BoardCard__wrapper {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  visibility: hidden;
+  display: grid;
+  grid-auto-flow: column;
+  gap: 2px;
 }

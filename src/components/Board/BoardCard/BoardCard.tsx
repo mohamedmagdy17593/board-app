@@ -1,7 +1,8 @@
 import './BoardCard.scss';
 
 import { PencilAltIcon } from '@heroicons/react/solid';
-import { editItem, Item } from '../../../features/board/boardSlice';
+import { TrashIcon } from '@heroicons/react/outline';
+import { editItem, Item, deleteItem } from '../../../features/board/boardSlice';
 import { useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../../app/hooks';
@@ -58,15 +59,31 @@ function BoardCard({ item, itemIndex, boardType }: BoardCardProps) {
           )}
 
           {!isEdit && (
-            <button
-              className="btn btn--icon BoardCard__btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsEdit(true);
-              }}
-            >
-              <PencilAltIcon className="btn__icon" />
-            </button>
+            <div className="BoardCard__wrapper">
+              <button
+                className="btn btn--icon BoardCard__btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsEdit(true);
+                }}
+              >
+                <PencilAltIcon className="btn__icon" />
+              </button>
+              <button
+                className="btn btn--icon BoardCard__btn BoardCard__btn--danger"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(
+                    deleteItem({
+                      boardType,
+                      itemId: item.id,
+                    }),
+                  );
+                }}
+              >
+                <TrashIcon className="btn__icon" />
+              </button>
+            </div>
           )}
         </div>
       )}
