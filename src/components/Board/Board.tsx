@@ -10,42 +10,52 @@ import { Droppable } from 'react-beautiful-dnd';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import { BoardType } from '../../types';
+import { canDrop } from '../../utils/helpers';
+import clsx from 'clsx';
 
 interface BoardProps {
   name: string;
   boardType: BoardType;
   canAdd?: boolean;
+  draggedType: BoardType | null;
 }
 
-function Board({ name, boardType, canAdd = false }: BoardProps) {
+function Board({ name, boardType, canAdd = false, draggedType }: BoardProps) {
   let board = useAppSelector(selectBoard(boardType));
 
-  console.log({ board });
+  let canDropToBoard = draggedType
+    ? canDrop({
+        dragBoardType: draggedType,
+        dropBoardType: boardType,
+      })
+    : false;
 
   return (
-    <div className="Board">
+    <div className={clsx('Board', { 'Board__can-drop': canDropToBoard })}>
       <div className="Board__header">{name}</div>
 
       <div className="Board__content">
-        <Droppable droppableId={boardType}>
-          {(droppableProvided, droppableSnapshot) => (
-            <div
-              ref={droppableProvided.innerRef}
-              className="Board__cards__wrapper"
-            >
-              {board.map((item, index) => {
-                return (
-                  <BoardCard
-                    key={item.id}
-                    item={item}
-                    itemIndex={index}
-                    boardType={boardType}
-                  />
-                );
-              })}
-              {droppableProvided.placeholder}
-            </div>
-          )}
+        <Droppable droppableId={boardType} isDropDisabled={!canDropToBoard}>
+          {(droppableProvided, droppableSnapshot) => {
+            return (
+              <div
+                ref={droppableProvided.innerRef}
+                className="Board__cards__wrapper"
+              >
+                {board.map((item, index) => {
+                  return (
+                    <BoardCard
+                      key={item.id}
+                      item={item}
+                      itemIndex={index}
+                      boardType={boardType}
+                    />
+                  );
+                })}
+                {droppableProvided.placeholder}
+              </div>
+            );
+          }}
         </Droppable>
 
         <div className="Board__actions">
