@@ -1,16 +1,20 @@
 import './BoardCard.scss';
 
 import { PencilAltIcon } from '@heroicons/react/solid';
-import { editItem, Item } from '../../../features/board/board';
+import { editItem, Item } from '../../../features/board/boardSlice';
 import { useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../../app/hooks';
+import { Draggable } from 'react-beautiful-dnd';
+import { BoardType } from '../../../types';
 
 interface BoardCardProps {
   item: Item;
+  itemIndex: number;
+  boardType: BoardType;
 }
 
-function BoardCard({ item }: BoardCardProps) {
+function BoardCard({ item, itemIndex, boardType }: BoardCardProps) {
   let [isEdit, setIsEdit] = useState(false);
   let dispatch = useAppDispatch();
 
@@ -19,44 +23,54 @@ function BoardCard({ item }: BoardCardProps) {
   }
 
   return (
-    <div
-      className="BoardCard"
-      role="button"
-      tabIndex={1}
-      onClick={isEdit ? undefined : handleClickOnCard}
-    >
-      {isEdit ? (
-        <BoardCardContentEditableDiv
-          text={item.text}
-          close={() => setIsEdit(false)}
-          onEdit={(value) => {
-            if (value) {
-              dispatch(
-                editItem({
-                  id: item.id,
-                  text: value,
-                }),
-              );
-              setIsEdit(false);
-            }
-          }}
-        />
-      ) : (
-        <div className="BoardCard__text">{item.text}</div>
-      )}
-
-      {!isEdit && (
-        <button
-          className="btn btn--icon BoardCard__btn"
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsEdit(true);
-          }}
+    <Draggable draggableId={item.id} index={itemIndex}>
+      {(draggableProvided, draggableSnapshot) => (
+        <div
+          ref={draggableProvided.innerRef}
+          {...draggableProvided.draggableProps}
+          {...draggableProvided.dragHandleProps}
+          className="BoardCard"
+          role="button"
+          tabIndex={1}
+          onClick={isEdit ? undefined : handleClickOnCard}
         >
-          <PencilAltIcon className="btn__icon" />
-        </button>
+          {isEdit ? (
+            <BoardCardContentEditableDiv
+              text={item.text}
+              close={() => setIsEdit(false)}
+              onEdit={(value) => {
+                if (value) {
+                  dispatch(
+                    editItem({
+                      boardType,
+                      item: {
+                        id: item.id,
+                        text: value,
+                      },
+                    }),
+                  );
+                  setIsEdit(false);
+                }
+              }}
+            />
+          ) : (
+            <div className="BoardCard__text">{item.text}</div>
+          )}
+
+          {!isEdit && (
+            <button
+              className="btn btn--icon BoardCard__btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsEdit(true);
+              }}
+            >
+              <PencilAltIcon className="btn__icon" />
+            </button>
+          )}
+        </div>
       )}
-    </div>
+    </Draggable>
   );
 }
 

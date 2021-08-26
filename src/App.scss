@@ -16,4 +16,10 @@
 
 .App__main {
   padding: 16px;
+  display: flex;
+  align-items: start;
+
+  > * + * {
+    margin-left: 16px;
+  }
 }
