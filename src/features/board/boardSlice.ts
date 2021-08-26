@@ -61,10 +61,27 @@ export const boardSlice = createSlice({
         Object.assign(item, editItem);
       }
     },
+    moveTo(
+      state,
+      action: PayloadAction<{
+        source: {
+          boardType: BoardType;
+          index: number;
+        };
+        destination: {
+          boardType: BoardType;
+          index: number;
+        };
+      }>,
+    ) {
+      let { source, destination } = action.payload;
+      let [item] = state[source.boardType].splice(source.index, 1);
+      state[destination.boardType].splice(destination.index, 0, item);
+    },
   },
 });
 
-export const { addItem, editItem } = boardSlice.actions;
+export const { addItem, editItem, moveTo } = boardSlice.actions;
 
 export const selectBoard = (type: BoardType) => (state: RootState) =>
   state.board[type];

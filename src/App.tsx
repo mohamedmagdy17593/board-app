@@ -1,11 +1,29 @@
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import './App.scss';
+import { useAppDispatch } from './app/hooks';
 
 import Board from './components/Board/Board';
+import { moveTo } from './features/board/boardSlice';
+import { BoardType } from './types';
 
 function App() {
-  function handleDragEnd(...args: any[]) {
-    console.log({ args });
+  let dispatch = useAppDispatch();
+
+  function handleDragEnd({ source, destination }: DropResult) {
+    if (source && destination) {
+      dispatch(
+        moveTo({
+          source: {
+            boardType: source.droppableId as BoardType,
+            index: source.index,
+          },
+          destination: {
+            boardType: destination.droppableId as BoardType,
+            index: destination.index,
+          },
+        }),
+      );
+    }
   }
 
   return (
